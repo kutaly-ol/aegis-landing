@@ -1,170 +1,345 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="איג'יס — מאמן AI אישי בפיתוח, שעוזר להציב מטרות, לפתח הרגלים ולהתמיד.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="איג'יס — מאמן AI אישי בפיתוח, כמו מלאך על הכתף." />
   <title>איג'יס | AEGIS</title>
+
   <style>
     :root {
+      --bg: #fcf8f2;
+      --card: #ffffff;
       --green: #245e4a;
-      --light: #e9f1e9;
-      --cream: #fffaf1;
-      --peach: #f7d9c2;
-      --ink: #24362f;
+      --green-soft: #e7f0ea;
+      --peach: #f4d7c2;
+      --text: #23342e;
+      --muted: #61736b;
+      --border: #dce7df;
+      --shadow: 0 10px 30px rgba(36, 94, 74, 0.08);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: var(--cream);
-      color: var(--ink);
+      background: linear-gradient(to bottom, #fffaf4, #f7f4ef);
+      color: var(--text);
       line-height: 1.7;
     }
 
     .page {
-      max-width: 620px;
-      margin: auto;
-      padding: 36px 22px 50px;
-      text-align: center;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 18px 16px 40px;
     }
 
-    .symbol {
-      width: 110px;
-      height: 110px;
-      margin: 12px auto 20px;
-      border-radius: 50%;
-      background: linear-gradient(150deg, var(--peach), #fff3da);
-      display: grid;
-      place-items: center;
-      font-size: 52px;
-      color: var(--green);
-    }
-
-    h1 {
-      font-size: 46px;
-      letter-spacing: 3px;
-      color: var(--green);
-      margin: 0;
-    }
-
-    .subtitle {
-      font-size: 17px;
-      color: #60766a;
-      margin: 0 0 32px;
-    }
-
-    h2 {
-      font-size: 25px;
-      line-height: 1.4;
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 22px 18px;
       margin-bottom: 18px;
     }
 
-    p { font-size: 17px; }
-
-    .intro {
-      margin-bottom: 28px;
+    .hero {
+      text-align: center;
+      padding-top: 28px;
     }
 
-    .highlight {
-      background: var(--light);
-      border-radius: 20px;
-      padding: 22px;
-      margin: 28px 0;
-      text-align: right;
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      min-height: 90px;
     }
 
-    .actions {
-      display: grid;
-      gap: 14px;
-      margin: 34px 0;
+    .logo-img {
+      max-width: 180px;
+      max-height: 90px;
+      display: block;
     }
 
-    button {
-      width: 100%;
-      padding: 17px 20px;
-      border-radius: 14px;
+    .logo-fallback {
+      display: none;
+      font-size: 38px;
+      letter-spacing: 3px;
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 10px;
+      line-height: 1.35;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: var(--green);
+    }
+
+    h3 {
+      font-size: 20px;
+      color: var(--green);
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .pitch {
       font-size: 18px;
       font-weight: bold;
-      cursor: pointer;
-      border: 2px solid var(--green);
     }
 
-    .primary {
+    .note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .video-box,
+    .coach-box,
+    .form-box {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .coach-image {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      display: block;
+      background: #f0f0f0;
+    }
+
+    .buttons {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 16px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
       background: var(--green);
       color: white;
     }
 
-    .secondary {
-      background: transparent;
+    .btn-primary:hover {
+      opacity: 0.94;
+    }
+
+    .btn-secondary {
+      background: var(--green-soft);
       color: var(--green);
+      border: 1px solid #cfe0d5;
     }
 
-    .note {
-      font-size: 13px;
-      color: #65746c;
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--green);
+      margin-bottom: 4px;
+      display: block;
     }
 
-    footer {
-      border-top: 1px solid #d9e4d9;
-      padding-top: 22px;
-      margin-top: 42px;
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid #cfd9d2;
+      font-size: 16px;
+      font-family: inherit;
+      background: white;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
       font-size: 13px;
-      color: #718077;
+      padding-top: 10px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #f4efe7;
+      color: var(--green);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="symbol" aria-hidden="true">✦</div>
 
-    <h1>AEGIS</h1>
-    <div class="subtitle">איג'יס — הכוח להתקדם, ביחד</div>
+    <!-- HERO -->
+    <section class="card hero">
+      <div class="logo-wrap">
+        <img
+          src="Logo.gif"
+          alt="לוגו איג'יס"
+          class="logo-img"
+          onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';"
+        />
+        <div id="logoFallback" class="logo-fallback">AEGIS</div>
+      </div>
 
-    <h2>מה אם היה לך מישהו שמאמין בך, גם ברגעים שקשה להתמיד?</h2>
+      <div class="tagline">איג'יס — מאמן AI אישי</div>
+    </section>
 
-    <p class="intro">
-      איג'יס הוא מיזם בפיתוח, שנועד להעניק לכל אדם
-      <strong>מאמן AI אישי — כמו מלאך על הכתף</strong>,
-      שעוזר להציב מטרות, לפתח הרגלים ולהתמיד בדרך.
-    </p>
-
-    <section class="highlight">
-      <strong>הטכנולוגיה לא מחליפה את הקשר האנושי.</strong>
+    <!-- PITCH -->
+    <section class="card">
+      <div class="pill">מיזם בפיתוח</div>
+      <h1>מלאך על הכתף, בדרך שלך</h1>
+      <p class="pitch">
+        איג'יס הוא מיזם בפיתוח, שנועד להעניק לכל אדם מאמן AI אישי —
+        כמו מלאך על הכתף, שמסייע להציב מטרות, לפתח הרגלים ומדרבן להגיע להישגים.
+      </p>
       <p>
-        אנחנו מאמינים שטכנולוגיה טובה אינה מחליפה
-        מאמנים אנושיים, רופאים ואנשי מקצוע.
-        היא מרחיבה את התמיכה ומאפשרת ליווי זמין 24/7.
+        אנחנו מאמינים שטכנולוגיה טובה אינה מחליפה אנשי מקצוע, רופאים ומאמנים אנושיים —
+        היא מרחיבה את התמיכה וזמינה 24/7.
       </p>
     </section>
 
-    <h2>רוצה להכיר את איג'יס?</h2>
-    <p>אנחנו בתחילת הדרך, ומזמינים אותך להיות חלק מההתפתחות.</p>
+    <!-- VIDEO -->
+    <section class="card video-box">
+      <h2>וידאו קצר על איג'יס</h2>
+      <p>
+        בקרוב יעלה סרטון היכרות קצר שיציג את החזון של איג'יס.
+      </p>
+      <button class="btn btn-secondary" onclick="openVideo()">
+        לצפייה בסרטון ביוטיוב
+      </button>
+      <div class="note">כשתהיה כתובת יוטיוב, נכניס אותה כאן.</div>
+    </section>
 
-    <div class="actions">
-      <button class="primary" onclick="comingSoon()">
-        שיחה עם המאמן הראשי
-      </button>
-      <button class="secondary" onclick="comingSoon()">
-        רוצה לקבל עדכונים
-      </button>
+    <!-- HEAD COACH -->
+    <section class="card coach-box">
+      <h2>הכירו את המאמן הראשי של איג'יס</h2>
+      <p>
+        רוצה להכיר את הרעיון מאחורי איג'יס ולשמוע יותר?
+      </p>
+
+      <img
+        src="head-coach.jpg"
+        alt="המאמן הראשי של איג'יס"
+        class="coach-image"
+      />
+
+      <div class="buttons">
+        <button class="btn btn-primary" onclick="openCoachChat()">
+          לשיחה עם המאמן הראשי
+        </button>
+      </div>
+
+      <div class="note">
+        בשלב זה קישור השיחה עדיין בהכנה, אבל המבנה כבר מוכן.
+      </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section class="card form-box">
+      <h2>רוצה שניצור איתך קשר?</h2>
+      <p>
+        אפשר להשאיר פרטים ונחזור אליך כשהשלב הבא של איג'יס יהיה מוכן.
+      </p>
+
+      <form onsubmit="submitForm(event)">
+        <div style="margin-bottom: 12px;">
+          <label for="name">שם</label>
+          <input type="text" id="name" name="name" placeholder="השם שלך" />
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label for="phone">טלפון</label>
+          <input type="tel" id="phone" name="phone" placeholder="מספר טלפון" />
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label for="email">אימייל</label>
+          <input type="email" id="email" name="email" placeholder="כתובת אימייל" />
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label for="message">הערות</label>
+          <textarea id="message" name="message" placeholder="מה מסקרן אותך באיג'יס?"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">שליחת פרטים</button>
+      </form>
+
+      <div class="note">
+        בשלב הזה הטופס עדיין לא מחובר למסד נתונים. נוכל לחבר אותו בהמשך.
+      </div>
+    </section>
+
+    <div class="footer">
+      AEGIS © 2026
     </div>
 
-    <p class="note">
-      איג'יס נמצא בפיתוח. השיחה והשירותים עדיין אינם זמינים.
-    </p>
-
-    <footer>
-      AEGIS © 2026 | צומחים יחד, מתקדמים באחריות
-    </footer>
   </main>
 
   <script>
-    function comingSoon() {
-      alert("איג'יס נמצא בפיתוח. האפשרות הזאת תהיה זמינה בהמשך.");
+    // כשתהיה כתובת אמיתית, נחליף את הערכים האלה
+    const videoUrl = "#";
+    const coachChatUrl = "#";
+
+    function openVideo() {
+      if (videoUrl === "#") {
+        alert("קישור הווידאו יתווסף בקרוב.");
+        return;
+      }
+      window.open(videoUrl, "_blank");
+    }
+
+    function openCoachChat() {
+      if (coachChatUrl === "#") {
+        alert("קישור השיחה עם המאמן הראשי עדיין בהכנה.");
+        return;
+      }
+      window.location.href = coachChatUrl;
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      alert("הטופס קיים, אבל עדיין לא מחובר לשמירת פרטים. נחבר אותו בשלב הבא.");
     }
   </script>
 </body>
