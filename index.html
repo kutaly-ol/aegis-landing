@@ -252,6 +252,27 @@
       .coach-button { font-size: 14px; border-width: 7px; min-height: 47px; }
       .contact-section h2 { font-size: 19px; }
     }
+    /* ElevenLabs conversation: visible only when the existing coach button is used. */
+    #gavriel-call-panel[hidden] { display: none; }
+    #gavriel-call-panel {
+      width: min(100%, 500px);
+      margin: -17px auto 35px;
+      padding: 16px;
+      border: 1px solid #d8e2d7;
+      border-radius: 14px;
+      background: #fffaf4;
+      text-align: center;
+    }
+    #gavriel-call-panel p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: var(--text);
+    }
+    #gavriel-call-panel elevenlabs-convai {
+      display: block;
+      max-width: 100%;
+      --elevenlabs-convai-widget-width: min(94vw, 440px);
+    }
   </style>
 </head>
 <body>
@@ -262,11 +283,11 @@
           <img class="brand-logo" src="Logo.gif" alt="הלוגו של איג'יס" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block'">
           <div id="logo-fallback" class="logo-fallback">AEGIS</div>
         </div>
-        <h1>AEGIS - המלאך על הכתף שלך</h1>
+        <h1>מלאך על הכתף, בדרך שלך</h1>
       </div>
       <p class="pitch">
-        איג'יס הוא מיזם בפיתוח, שנועד להעניק לכל אדם מאמן אישי בכיס – 
-        שמסייע להציב מטרות, לפתח הרגלים ומדרבן להגיע להישגים.
+        איג'יס הוא מיזם בפיתוח, שנועד להעניק לכל אדם מאמן AI אישי בכיס –
+        מלאך על הכתף, שמסייע להציב מטרות, לפתח הרגלים ומדרבן להגיע להישגים.
       </p>
     </header>
 
@@ -284,6 +305,23 @@
           לשיחת טלפון עם המאמן שלנו
         </button>
       </div>
+    </section>
+
+    <section id="gavriel-call-panel" aria-label="שיחה קולית עם גבריאל" hidden>
+      <p>גבריאל מוכן לשיחה. לחץ על כפתור התחלת השיחה בחלון שנפתח, ואשר גישה למיקרופון אם תתבקש.</p>
+      <elevenlabs-convai
+        id="gavriel-widget"
+        agent-id="agent_7401m86f11f7encvtxbppn85h6c3"
+        variant="expanded"
+        dismissible="true"
+        action-text="שיחה עם גבריאל"
+        start-call-text="התחל שיחה"
+        end-call-text="סיים שיחה"
+        listening-text="מקשיב..."
+        speaking-text="גבריאל מדבר..."
+        avatar-orb-color-1="#245f4d"
+        avatar-orb-color-2="#f4d7c2"
+      ></elevenlabs-convai>
     </section>
 
     <section class="contact-section" aria-labelledby="contact-title">
@@ -326,7 +364,6 @@
   <script>
     // Replace these values with the real links when they are ready.
     const videoUrl = "";
-    const coachChatUrl = "";
 
     function openVideo() {
       if (!videoUrl) {
@@ -337,11 +374,19 @@
     }
 
     function openCoachChat() {
-      if (!coachChatUrl) {
-        alert("השיחה עם גבריאל עדיין בהכנה.");
-        return;
+      const panel = document.getElementById("gavriel-call-panel");
+      panel.hidden = false;
+      panel.scrollIntoView({ behavior: "smooth", block: "center" });
+      // ElevenLabs supports a programmatic start; the visible widget remains a fallback.
+      const widget = document.getElementById("gavriel-widget");
+      if (typeof widget.startConversation === "function") {
+        try {
+          const started = widget.startConversation();
+          if (started && typeof started.catch === "function") started.catch(() => {});
+        } catch (error) {
+          // The visitor can still start the call from the visible widget.
+        }
       }
-      window.location.assign(coachChatUrl);
     }
 
     document.getElementById("contact-form").addEventListener("submit", function (event) {
@@ -359,5 +404,6 @@
       // Its response page confirms success only after the spreadsheet write.
     });
   </script>
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
 </html>
